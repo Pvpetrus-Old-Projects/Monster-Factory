@@ -13,6 +13,7 @@ namespace Monster_Kingdom
             int Program_Trwa = 0;
             do
             {
+                Console.Clear();
                 Console.WriteLine("Menu główne:");
                 Console.WriteLine("0. Wyjdź z programu");
                 Console.WriteLine("1. Wejdź do interfejsu armii");

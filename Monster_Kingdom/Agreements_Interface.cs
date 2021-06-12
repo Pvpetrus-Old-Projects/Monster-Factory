@@ -14,6 +14,7 @@ namespace Monster_Kingdom
             int Program_Trwa=0;
             do
             {
+                Console.Clear();
                 Console.WriteLine("Interfejs umów:");
                 Console.WriteLine("Wybierz jedną z opcji:");
                 Console.WriteLine("0. Wyjdź z interfejsu umów");
