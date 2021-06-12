@@ -6,7 +6,8 @@ namespace Monster_Kingdom
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Menu.Start();
+            Console.WriteLine("Program został zakończony pomyślnie");
         }
     }
 }
