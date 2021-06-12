@@ -11,10 +11,14 @@ namespace Monster_Kingdom.Agreements
 {
     class Specific_Agreement:Agreement
     {
-        private List<Monster> monsters;
-        public Specific_Agreement(Double price,Shaper shaper) : base(price,shaper)
+        private List<Monster> monsters { get; set; }
+        public Specific_Agreement():base()
         {
             this.monsters = new List<Monster>();
+        }
+        public Specific_Agreement(Double price,Shaper shaper,List<Monster> monsters) : base(price,shaper)
+        {
+            this.monsters = monsters;
         }
         void Finish_Work(Kingdom kingdom)
         {
