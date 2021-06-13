@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Monster_Kingdom.Army_Centers;
 using Monster_Kingdom.Monsters;
+using Monster_Kingdom.Kingdoms;
 namespace Monster_Kingdom.Mothers_Of_The_Swarm
 {
     class Mother_Of_The_Swarm
     {
-        private bool ability_To_Spawn_Imps { get; set; }
-        private Army_Center army_Center { get; set; }
+        public bool ability_To_Spawn_Imps { get; private set; }
+        public Army_Center army_Center { get; private set; }
+        public Kingdom kingdom { get; private set; }
         public Mother_Of_The_Swarm()
         {
 
@@ -22,7 +24,14 @@ namespace Monster_Kingdom.Mothers_Of_The_Swarm
         }
         public void Create(Monster monster)
         {
-
+            try
+            {
+            kingdom.Add_Monster(monster);
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }

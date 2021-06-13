@@ -10,7 +10,7 @@ namespace Monster_Kingdom.Agreements
 {
     class Working_Agreement:Agreement
     {
-        private Monster monster { get; set; }
+        public Monster monster { get; set; }
         public Working_Agreement() : base()
         {
 

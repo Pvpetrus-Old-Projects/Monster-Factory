@@ -11,7 +11,7 @@ namespace Monster_Kingdom.Agreements
 {
     class Specific_Agreement:Agreement
     {
-        private List<Monster> monsters { get; set; }
+        public List<Monster> monsters { get; set; }
         public Specific_Agreement():base()
         {
             this.monsters = new List<Monster>();

@@ -8,7 +8,7 @@ namespace Monster_Kingdom.Monsters
 {
     class Ork:Monster
     {
-        private String color { get; set; }
+        public String color { get; protected set; }
         public Ork() : base()
         {
 

@@ -8,10 +8,10 @@ namespace Monster_Kingdom.Monsters
 {
     abstract class Monster
     {
-        protected String race { get; set; }
-        protected int id { get; set; }
-        protected Double price { get; set; }
-        protected Shaper shaper { get; set; }
+        public String race { get; protected set; }
+        public int id { get; protected set; }
+        public Double price { get; protected set; }
+        public Shaper shaper { get; protected set; }
         public Monster()
         {
 
