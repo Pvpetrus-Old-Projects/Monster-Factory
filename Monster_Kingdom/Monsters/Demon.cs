@@ -16,5 +16,9 @@ namespace Monster_Kingdom.Monsters
         {
 
         }
+        public override string ToString()
+        {
+            return "Demon: "+base.ToString();
+        }
     }
 }

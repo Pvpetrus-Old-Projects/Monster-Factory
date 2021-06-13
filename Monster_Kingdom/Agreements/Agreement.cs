@@ -19,5 +19,21 @@ namespace Monster_Kingdom.Agreements
             this.price = price;
             this.shaper = shaper;
         }
+        public override string ToString()
+        {
+            return "Price: "+price +" "+ "Shaper: " +shaper;
+        }
+
+
+
+        /*public override string ToString()
+        {
+            return base.ToString() + $" Pracuje nad: {Items.Count} pozycją/pozycjami";
+        }
+        public override string ToString()
+        {
+            return $"{Author.Name} {Author.Surname}";
+        }*/
+        //pomocnicze
     }
 }

@@ -11,18 +11,30 @@ namespace Monster_Kingdom.Agreements
 {
     class Specific_Agreement:Agreement
     {
-        public List<Monster> monsters { get; set; }
-        public Specific_Agreement():base()
+        
+        public Monster monster { get; set; }
+        public Specific_Agreement() : base()
         {
-            this.monsters = new List<Monster>();
+
         }
-        public Specific_Agreement(Double price,Shaper shaper,List<Monster> monsters) : base(price,shaper)
+        public Specific_Agreement(Double price, Shaper shaper, Monster monster) : base(price, shaper)
         {
-            this.monsters = monsters;
+            this.monster = monster;
         }
-        void Finish_Work(Kingdom kingdom)
+        void Finish_Work_On_Monster(Kingdom kingdom)
         {
-            
+            try
+            {
+                kingdom.Add_Monster(monster);
+            }
+            catch(ArgumentException e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+        public override string ToString()
+        {
+            return base.ToString() + "Pracuje nad potworem: "+monster;
         }
     }
 }

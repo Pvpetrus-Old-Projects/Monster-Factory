@@ -33,5 +33,9 @@ namespace Monster_Kingdom.Mothers_Of_The_Swarm
                 Console.WriteLine(e);
             }
         }
+        public override string ToString()
+        {
+            return "Matka: umiejętność tworzenia impów: "+ability_To_Spawn_Imps;
+        }
     }
 }

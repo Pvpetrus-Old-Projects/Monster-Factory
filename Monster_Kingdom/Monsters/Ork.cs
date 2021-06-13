@@ -17,5 +17,9 @@ namespace Monster_Kingdom.Monsters
         {
             this.color = color;
         }
+        public override string ToString()
+        {
+            return "Ork: " + base.ToString()+ " kolor: "+color;
+        }
     }
 }

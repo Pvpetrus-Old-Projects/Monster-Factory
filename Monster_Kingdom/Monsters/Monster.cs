@@ -8,8 +8,8 @@ namespace Monster_Kingdom.Monsters
 {
     abstract class Monster
     {
-        public String race { get; protected set; }
         public int id { get; protected set; }
+        public String race { get; protected set; }
         public Double price { get; protected set; }
         public Shaper shaper { get; protected set; }
         public Monster()
@@ -22,6 +22,10 @@ namespace Monster_Kingdom.Monsters
             this.id = id;
             this.price = price;
             this.shaper = shaper;
+        }
+        public override string ToString()
+        {
+            return "id: " + id + "Rasa: " + race + " cena: " + price + " tworzyciel: " + shaper;
         }
     }
 }

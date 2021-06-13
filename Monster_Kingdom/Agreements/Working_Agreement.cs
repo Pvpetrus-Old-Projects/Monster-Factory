@@ -10,18 +10,37 @@ namespace Monster_Kingdom.Agreements
 {
     class Working_Agreement:Agreement
     {
-        public Monster monster { get; set; }
+        
+        public List<Monster> monsters { get; private set; }
         public Working_Agreement() : base()
         {
-
+            this.monsters = new List<Monster>();
         }
-        public Working_Agreement(Double price,Shaper shaper,Monster monster) : base(price, shaper)
+        public Working_Agreement(Double price, Shaper shaper, List<Monster> monsters) : base(price, shaper)
         {
-            this.monster = monster;
+            this.monsters = monsters;
         }
         void Finish_Work_On_Monster(Monster monster,Kingdom kingdom)
         {
-
+            if (monsters.Contains(monster))
+            {
+                try
+                {
+                    kingdom.Add_Monster(monster);
+                }
+                catch (ArgumentException e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
+            else
+            {
+                throw new ArgumentException("There is no such monster in the contract");
+            }
+        }
+        public override string ToString()
+        {
+            return base.ToString() + "Pracuje nad potworami: " + monsters;
         }
     }
 }

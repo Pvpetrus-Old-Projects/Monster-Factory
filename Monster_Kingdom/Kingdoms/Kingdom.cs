@@ -108,5 +108,9 @@ namespace Monster_Kingdom.Kingdoms
             if (monsters.Contains(monster)) monsters.Remove(monster);
             else throw new ArgumentException("There is no such monster to remove");
         }
+        public override string ToString()
+        {
+            return "Królestwo:\n"+"Tworzyciele:\n"+shapers+"Matki miotu:\n"+mothers_Of_The_Swarm+"Umowy:\n"+agreements+"Potwory:\n"+monsters+"Centrum wojska:\n"+army_Center;
+        }
     }
 }

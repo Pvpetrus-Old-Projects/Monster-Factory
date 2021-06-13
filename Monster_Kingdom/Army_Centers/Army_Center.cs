@@ -42,10 +42,15 @@ namespace Monster_Kingdom.Army_Centers
         //niepotrzebne
         public void Show_Available()
         {
+            Console.WriteLine("Monsters for sell: ");
             foreach(Monster monster in monsters)
             {
                 Console.WriteLine(monster);
             }
+        }
+        public override string ToString()
+        {
+            return  "Potwory do wynajęcia: " + monsters;
         }
 
     }
