@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Monster_Kingdom.Kingdoms;
+using Monster_Kingdom.Agreements;
+using Monster_Kingdom.Army_Centers;
+using Monster_Kingdom.Monsters;
+using Monster_Kingdom.Mothers_Of_The_Swarm;
+using Monster_Kingdom.Shapers;
 namespace Monster_Kingdom
 {
     class Army_Center_Interface_Warehouse
     {
-        static public void Start()
+        static public void Start(Kingdom kingdom,Army_Center army_Center)
         {
             int Program_Trwa = 0;
             do
@@ -25,7 +30,7 @@ namespace Monster_Kingdom
                     case 0:
                         break;
                     case 1:
-                        Order_Monster();
+                        Order_Monster(kingdom,army_Center);
                         break;
                     case 2:
                         Show_Available_Monsters();
@@ -44,13 +49,32 @@ namespace Monster_Kingdom
             } while (Program_Trwa != 0);
 
         }
-        static public void Order_Monster()
+        static public void Order_Monster(Kingdom kingdom,Army_Center army_Center)
         {
+            int index = 0;
+            Show_Available_Monsters(army_Center);
+            Console.WriteLine("Wpisz numer potwora do kupienia. \nJeśli chcesz wyjść wpisz 0");
+            index = Convert.ToInt32(Console.ReadLine());
+            if (index == 0) return;
+            if (index < 0 || index > kingdom.monsters.Count) throw new ArgumentOutOfRangeException("Nie ma potwora o takim numerze");
+            index--; 
+            try
+            {
+            army_Center.Receive_Monster(kingdom.monsters[index], kingdom);
+            }
+            catch(ArgumentException e)
+            {
+                Console.WriteLine(e);
+            }
 
         }
-        static public void Show_Available_Monsters()
+        static public void Show_Available_Monsters(Army_Center army_Center)
         {
-
+            int index = 0;
+            foreach(Monster monster in army_Center.monsters)
+            {
+                Console.WriteLine(index+". "+monster);
+            }
         }
     }
 }

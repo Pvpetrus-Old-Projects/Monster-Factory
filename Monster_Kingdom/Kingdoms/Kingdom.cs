@@ -77,7 +77,8 @@ namespace Monster_Kingdom.Kingdoms
                     {
                         if(mother_Of_The_Swarm.ability_To_Spawn_Imps==true)
                         {
-                            mother_Of_The_Swarm.Create(monster);
+                            if (!monsters.Contains(monster)) monsters.Add(mother_Of_The_Swarm.Create(monster));
+                            else throw new ArgumentException("Such monster already exists");
                             no_Appropriate_Mother = false;
                             break;
                         }
@@ -94,7 +95,8 @@ namespace Monster_Kingdom.Kingdoms
                 else
                 {
                     Mother_Of_The_Swarm mother = mothers_Of_The_Swarm.FirstOrDefault();
-                    mother.Create(monster);
+                    if (!monsters.Contains(monster)) monsters.Add(mother.Create(monster));
+                    else throw new ArgumentException("Such monster already exists");
                 }
             }
         }

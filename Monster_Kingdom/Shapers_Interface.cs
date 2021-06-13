@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Monster_Kingdom.Kingdoms;
+using Monster_Kingdom.Agreements;
+using Monster_Kingdom.Army_Centers;
+using Monster_Kingdom.Monsters;
+using Monster_Kingdom.Mothers_Of_The_Swarm;
+using Monster_Kingdom.Shapers;
 namespace Monster_Kingdom
 {
     class Shapers_Interface
     {
-        static public void Start()
+        static public void Start(Kingdom kingdom, Army_Center army_Center)
         {
             int Program_Trwa = 0;
             do
