@@ -8,8 +8,8 @@ namespace Monster_Kingdom.Agreements
 {
     class Agreement
     {
-        protected Double price { get; set; }
-        protected Shaper shaper { get; set; }
+        public  Double price { get; protected set; }
+        public  Shaper shaper { get; protected set; }
         public Agreement()
         {
             

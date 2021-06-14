@@ -21,7 +21,7 @@ namespace Monster_Kingdom.Agreements
         {
             this.monster = monster;
         }
-        void Finish_Work_On_Monster(Kingdom kingdom)
+        public void Finish_Work_On_Monster(Kingdom kingdom)
         {
             try
             {

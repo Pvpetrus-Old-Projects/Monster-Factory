@@ -33,12 +33,11 @@ namespace Monster_Kingdom
                         Order_Monster(kingdom,army_Center);
                         break;
                     case 2:
-                        Show_Available_Monsters();
+                        Show_Available_Monsters(kingdom.monsters);
                         break;
                     default:
                         Console.WriteLine("Zła akcja!");
                         break;
-
                 }
                 if (Program_Trwa == 0) break;
                 do
@@ -47,16 +46,15 @@ namespace Monster_Kingdom
                 }
                 while (Console.ReadLine() != "0");
             } while (Program_Trwa != 0);
-
         }
         static public void Order_Monster(Kingdom kingdom,Army_Center army_Center)
         {
             int index = 0;
-            Show_Available_Monsters(army_Center);
-            Console.WriteLine("Wpisz numer potwora do kupienia. \nJeśli chcesz wyjść wpisz 0");
+            Console.WriteLine("Wpisz numer potwora do dodania. \nJeśli chcesz wyjść wpisz 0");
+            Show_Available_Monsters(kingdom.monsters);
             index = Convert.ToInt32(Console.ReadLine());
             if (index == 0) return;
-            if (index < 0 || index > kingdom.monsters.Count) throw new ArgumentOutOfRangeException("Nie ma potwora o takim numerze");
+            if (index < 1 || index > kingdom.monsters.Count) throw new ArgumentOutOfRangeException("Nie ma potwora o takim numerze");
             index--; 
             try
             {
@@ -68,10 +66,10 @@ namespace Monster_Kingdom
             }
 
         }
-        static public void Show_Available_Monsters(Army_Center army_Center)
+        static public void Show_Available_Monsters(List<Monster> monsters)
         {
-            int index = 0;
-            foreach(Monster monster in army_Center.monsters)
+            int index = 1;
+            foreach(Monster monster in monsters)
             {
                 Console.WriteLine(index+". "+monster);
             }

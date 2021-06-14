@@ -44,6 +44,8 @@ namespace Monster_Kingdom
                 Console.WriteLine("1. Wejdź do interfejsu armii");
                 Console.WriteLine("2. Wejdź do iterfejsu umów");
                 Console.WriteLine("3. Wejdź do interfejsu Tworzycieli");
+                TimeSpan dt2 = DateTime.Now.Subtract(new DateTime(1970, 1, 1, 0, 0, 0));
+                int id = Convert.ToInt32(dt2.TotalSeconds);
                 Program_Trwa = Int32.Parse(Console.ReadLine());
                 switch (Program_Trwa)
                 {
@@ -60,6 +62,11 @@ namespace Monster_Kingdom
                         break;
                     default:
                         Console.WriteLine("Zła akcja!");
+                        do
+                        {
+                            Console.WriteLine("Aby powrócić podaj 0:");
+                        }
+                        while (Console.ReadLine() != "0");
                         break;
 
                 }

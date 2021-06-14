@@ -8,9 +8,9 @@ namespace Monster_Kingdom.Shapers
 {
     class Shaper
     {
-        private String name { get; set; }
-        private String surname { get; set; }
-        private int id { get; set; }
+        public  String name { get; set; }
+        public  String surname { get; set; }
+        public  int id { get; set; }
         public Shaper()
         {
 

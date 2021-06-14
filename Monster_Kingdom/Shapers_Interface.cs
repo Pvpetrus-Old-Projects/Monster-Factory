@@ -30,15 +30,14 @@ namespace Monster_Kingdom
                     case 0:
                         break;
                     case 1:
-                        Show_Shapers();
+                        Show_Shapers(kingdom);
                         break;
                     case 2:
-                        Add_Shaper();
+                        Add_Shaper(kingdom);
                         break;
                     default:
                         Console.WriteLine("Zła akcja!");
                         break;
-
                 }
                 if (Program_Trwa == 0) break;
                 do
@@ -47,15 +46,34 @@ namespace Monster_Kingdom
                 }
                 while (Console.ReadLine() != "0");
             } while (Program_Trwa != 0);
-
         }
-        public static void Show_Shapers()
+        public static void Show_Shapers(Kingdom kingdom)
         {
-
+            int index = 1;
+            foreach (Shaper shaper in kingdom.shapers)
+            {
+                Console.WriteLine(index + ". " + shaper);
+            }
         }
-        public static void Add_Shaper()
+        public static void Add_Shaper(Kingdom kingdom)
         {
-
+            String name;
+            String surname;
+            TimeSpan dt2 = DateTime.Now.Subtract(new DateTime(1970, 1, 1, 0, 0, 0));
+            int id = Convert.ToInt32(dt2.TotalSeconds);
+            Console.WriteLine("Podaj imię: ");
+            name = Console.ReadLine();
+            Console.WriteLine("Podaj nazwisko: ");
+            surname = Console.ReadLine();
+            Shaper shaper = new Shaper(name, surname, id);
+            try
+            {
+                kingdom.Add_Shaper(shaper);
+            }
+            catch(ArgumentException e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }

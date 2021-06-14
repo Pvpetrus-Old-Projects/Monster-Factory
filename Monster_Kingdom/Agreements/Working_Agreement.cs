@@ -11,7 +11,7 @@ namespace Monster_Kingdom.Agreements
     class Working_Agreement:Agreement
     {
         
-        public List<Monster> monsters { get; private set; }
+        public List<Monster> monsters { get;  set; }
         public Working_Agreement() : base()
         {
             this.monsters = new List<Monster>();
@@ -20,7 +20,7 @@ namespace Monster_Kingdom.Agreements
         {
             this.monsters = monsters;
         }
-        void Finish_Work_On_Monster(Monster monster,Kingdom kingdom)
+        public void Finish_Work_On_Monster(Monster monster,Kingdom kingdom)
         {
             if (monsters.Contains(monster))
             {

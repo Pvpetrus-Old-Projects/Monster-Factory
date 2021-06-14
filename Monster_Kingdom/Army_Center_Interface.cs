@@ -38,8 +38,12 @@ namespace Monster_Kingdom
                         break;
                     default:
                         Console.WriteLine("Zła akcja!");
+                        do
+                        {
+                            Console.WriteLine("Aby powrócić podaj 0:");
+                        }
+                        while (Console.ReadLine() != "0");
                         break;
-
                 }
                 if (Program_Trwa == 0) break;
             } while (Program_Trwa != 0);
