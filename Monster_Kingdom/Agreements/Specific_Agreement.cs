@@ -34,7 +34,7 @@ namespace Monster_Kingdom.Agreements
         }
         public override string ToString()
         {
-            return base.ToString() + "Pracuje nad potworem: "+monster;
+            return base.ToString() + " Pracuje nad potworem: "+monster;
         }
     }
 }

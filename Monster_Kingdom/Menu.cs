@@ -25,16 +25,16 @@ namespace Monster_Kingdom
             List<Agreement> agreements = new List<Agreement>();
             List<Monster> monsters = new List<Monster>();
             Army_Center army_Center = new Army_Center(Army_Center_monsters);
-            Kingdom kingdom = new Kingdom(shapers, mothers_Of_The_Swarm, agreements, monsters, army_Center);
-            //
-            //Dodanie matek roju żeby działało
-            //
             Mother_Of_The_Swarm mothers_Of_The_Swarm1 = new Mother_Of_The_Swarm(true);
             Mother_Of_The_Swarm mothers_Of_The_Swarm2 = new Mother_Of_The_Swarm(false);
             Mother_Of_The_Swarm mothers_Of_The_Swarm3 = new Mother_Of_The_Swarm(false);
             mothers_Of_The_Swarm.Add(mothers_Of_The_Swarm1);
             mothers_Of_The_Swarm.Add(mothers_Of_The_Swarm2);
             mothers_Of_The_Swarm.Add(mothers_Of_The_Swarm3);
+            Kingdom kingdom = new Kingdom(shapers, mothers_Of_The_Swarm, agreements, monsters, army_Center);
+            //
+            //Dodanie matek roju żeby działało
+            //
             int Program_Trwa = 0;
             do
             {
@@ -46,7 +46,14 @@ namespace Monster_Kingdom
                 Console.WriteLine("3. Wejdź do interfejsu Tworzycieli");
                 TimeSpan dt2 = DateTime.Now.Subtract(new DateTime(1970, 1, 1, 0, 0, 0));
                 int id = Convert.ToInt32(dt2.TotalSeconds);
-                Program_Trwa = Int32.Parse(Console.ReadLine());
+                try
+                {
+                    Program_Trwa = Int32.Parse(Console.ReadLine());
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e);
+                }
                 switch (Program_Trwa)
                 {
                     case 0:

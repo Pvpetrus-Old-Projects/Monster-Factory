@@ -83,11 +83,12 @@ namespace Monster_Kingdom
             Console.WriteLine("Podaj index tworzyciela:\nJeśli chcesz wyjść podaj 0");
             int index = Convert.ToInt32(Console.ReadLine());
             if (index == 0) return;
-            if (index < 0 || index > kingdom.monsters.Count)
+            if (index < 0 || index > kingdom.shapers.Count)
             {
                 Console.WriteLine("Nie ma tworzyciela o takim indeksie");
                 return;
             }
+            index--;
             Console.WriteLine("Podaj cenę: ");
             price = Convert.ToDouble(Console.ReadLine());
             //dodawanie potwora do kontraktu
@@ -102,15 +103,16 @@ namespace Monster_Kingdom
             Console.WriteLine("Podaj cenę: ");
             price = Convert.ToDouble(Console.ReadLine());
             Monster new_monster;
+
             if (origin == "Ork")
             {
                 Console.WriteLine("Podaj kolor: ");
                 color = Console.ReadLine();
-                new_monster = new Ork(race, id, price, kingdom.agreements[index].shaper, color);
+                new_monster = new Ork(race, id, price, kingdom.shapers[index], color);
             }
             else
             {
-                new_monster = new Demon(race, id, price, kingdom.agreements[index].shaper);
+                new_monster = new Demon(race, id, price, kingdom.shapers[index]);
             }
             Specific_Agreement agreement = new Specific_Agreement(price, kingdom.shapers[index], new_monster);
             try
@@ -131,11 +133,12 @@ namespace Monster_Kingdom
             Console.WriteLine("Podaj index tworzyciela:\nJeśli chcesz wyjść podaj 0");
             int index = Convert.ToInt32(Console.ReadLine());
             if (index == 0) return;
-            if (index < 0 || index > kingdom.monsters.Count)
+            if (index < 0 || index > kingdom.shapers.Count)
             {
                 Console.WriteLine("Nie ma tworzyciela o takim indeksie");
                 return;
             }
+            index--;
             Console.WriteLine("Podaj cenę: ");
             price = Convert.ToDouble(Console.ReadLine());
             //dodawanie potwora do kontraktu
@@ -206,7 +209,7 @@ namespace Monster_Kingdom
             Show_Working_Agreements(kingdom);
             int index = Convert.ToInt32(Console.ReadLine());
             if (index == 0) return;
-            if (index < 0 || index > kingdom.monsters.Count)
+            if (index < 0 || index > kingdom.agreements.Count) //tu jest blad bo zlicza wszystkie a nie working
             {
                 Console.WriteLine("Nie ma umowy o takim indeksie");
                 return;
@@ -215,7 +218,7 @@ namespace Monster_Kingdom
             Working_Agreement new_agreement = (Working_Agreement)Choose_Specific_Agreement(kingdom, index);
             int monster_index;
             Console.WriteLine("Wybierz potwora:\n Jeśli chcesz powrócić wybierz 0");
-            Console.WriteLine(new_agreement.monsters);
+            Show_Agreement_Monsters(new_agreement);
             monster_index = Convert.ToInt32(Console.ReadLine());
 
             if (monster_index == 0) return;
@@ -225,7 +228,7 @@ namespace Monster_Kingdom
                 return;
             }
             index--;
-            //dokonczyc
+            //dokonczyc wypisywanie monsters
 
         }
         public static void Show_Specific_Agreements(Kingdom kingdom)
@@ -274,7 +277,41 @@ namespace Monster_Kingdom
         }
         public static void End_Work_On_Contract(Kingdom kingdom)
         {
-            //dokonczyc
+            Console.WriteLine("Wybierz umowę:\n Jeśli chcesz powrócić wybierz 0 ");
+            Show_Specific_Agreements(kingdom);
+            int index = Convert.ToInt32(Console.ReadLine());
+            if (index == 0) return;
+            if (index < 0 || index > kingdom.agreements.Count) // tu jest blad bo zlicza wszystkie a nie specific
+            {
+                Console.WriteLine("Nie ma umowy o takim indeksie");
+                return;
+            }
+            index--;
+            Specific_Agreement comparable_agreement=(Specific_Agreement)Choose_Specific_Agreement(kingdom, index);
+            foreach(Specific_Agreement agreement in kingdom.agreements)
+            {
+                if (agreement == comparable_agreement)
+                {
+                    try
+                    {
+                        kingdom.Add_Monster(agreement.monster);
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                }
+            }
+
+        }
+        public static void Show_Agreement_Monsters(Working_Agreement agreement)
+        {
+            int index = 1;
+            foreach (Monster monster in agreement.monsters)
+            {
+                Console.WriteLine(index + ". " + agreement);
+                index++;
+            }
         }
     }
     

@@ -53,6 +53,7 @@ namespace Monster_Kingdom
             foreach (Shaper shaper in kingdom.shapers)
             {
                 Console.WriteLine(index + ". " + shaper);
+                index++;
             }
         }
         public static void Add_Shaper(Kingdom kingdom)
