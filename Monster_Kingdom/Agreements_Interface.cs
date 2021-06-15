@@ -29,7 +29,14 @@ namespace Monster_Kingdom
                 Console.WriteLine("4. Dodaj potwora do umowy o pracę");
                 Console.WriteLine("5. Zakończ pracę nad potworem w umowie o pracę");
                 Console.WriteLine("6. Zakończ pracę nad potworem w umowie o dzieło");
-                Program_Trwa=Int32.Parse(Console.ReadLine());
+                try
+                {
+                    Program_Trwa = Int32.Parse(Console.ReadLine());
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e);
+                }
                 switch (Program_Trwa)
                 {
                     case 0:
@@ -153,19 +160,27 @@ namespace Monster_Kingdom
                 Console.WriteLine(e);
             }
         }
-        public static void Add_Monster_To_Agreement(Kingdom kingdom)
+        public static void Add_Monster_To_Agreement(Kingdom kingdom)//uwazac
         {
-            // nie zadziala bo index nie bedzie sie zgadzal
-            Console.WriteLine("Wybierz tworzyciela:\n Jeśli chcesz powrócić wybierz 0 ");
-            Show_Working_Agreements(kingdom);
+            Console.WriteLine("Wybierz umowe:\n Jeśli chcesz powrócić wybierz 0 ");
+            int count = Show_Working_Agreements(kingdom);
             int index = Convert.ToInt32(Console.ReadLine());
             if (index == 0) return;
-            if (index < 0 || index > kingdom.monsters.Count)
+            if (index < 0 || index > count)//uwazac
             {
-                Console.WriteLine("Nie ma tworzyciela o takim indeksie");
+                Console.WriteLine("Nie ma umowy o takim indeksie");
                 return;
             }
             index--;
+            Working_Agreement new_agreement;
+            //zrobic choose agreement
+            foreach(Agreement agreement in kingdom.agreements)
+            {
+                if (agreement == Choose_Working_Agreement(kingdom, index))
+                {
+                    new_agreement = (Working_Agreement)agreement;
+                }
+            }
             String origin;
             String name;
             String race;
@@ -194,22 +209,21 @@ namespace Monster_Kingdom
             }
             try
             {
-                Working_Agreement agreement = (Working_Agreement)kingdom.agreements[index];
-                agreement.monsters.Add(new_monster);
+                new_agreement = (Working_Agreement)kingdom.agreements[index];//blad cant cast specific to working
+                new_agreement.monsters.Add(new_monster);
             }
             catch (ArgumentException e)
             {
                 Console.WriteLine(e);
             }
         }
-        public static void End_Work_On_Monster(Kingdom kingdom)
+        public static void End_Work_On_Monster(Kingdom kingdom)//uwazac
         {
-            //INDEX!!!
             Console.WriteLine("Wybierz umowę:\n Jeśli chcesz powrócić wybierz 0 ");
-            Show_Working_Agreements(kingdom);
+            int count=Show_Working_Agreements(kingdom);
             int index = Convert.ToInt32(Console.ReadLine());
             if (index == 0) return;
-            if (index < 0 || index > kingdom.agreements.Count) //tu jest blad bo zlicza wszystkie a nie working
+            if (index < 0 || index > count)
             {
                 Console.WriteLine("Nie ma umowy o takim indeksie");
                 return;
@@ -229,36 +243,49 @@ namespace Monster_Kingdom
             }
             index--;
             //dokonczyc wypisywanie monsters
+            kingdom.Add_Monster(new_agreement.monsters[index]);
+            new_agreement.monsters.RemoveAt(index);
 
         }
-        public static void Show_Specific_Agreements(Kingdom kingdom)
+        public static int Show_Specific_Agreements(Kingdom kingdom)
         {
             int index = 1;
-            foreach(Specific_Agreement agreement in kingdom.agreements)
+            foreach(Agreement agreement in kingdom.agreements)
             {
-                Console.WriteLine(index+". "+agreement);
-                index++;
+                if (agreement is Specific_Agreement)
+                {
+                    Console.WriteLine(index + ". " + agreement);
+                    index++;
+                }
             }
+            return index - 1;
         }
-        public static void Show_Working_Agreements(Kingdom kingdom)
+        public static int Show_Working_Agreements(Kingdom kingdom)
         {
             int index = 1;
-            foreach (Working_Agreement agreement in kingdom.agreements)
+            foreach (Agreement agreement in kingdom.agreements)
             {
+                if( agreement is Working_Agreement)
+                {
                 Console.WriteLine(index + ". " + agreement);
                 index++;
+                }
             }
+            return index - 1;
         }
         public static Agreement Choose_Specific_Agreement(Kingdom kingdom,int index)
         {
 
-            foreach(Specific_Agreement agreement in kingdom.agreements)
+            foreach(Agreement agreement in kingdom.agreements)
             {
+                if(agreement is Specific_Agreement)
+                {
                 if (index == 0)
                 {
                     return agreement;
                 }
                 index--;
+                }
             }
             return kingdom.agreements.FirstOrDefault();
         }
@@ -267,21 +294,24 @@ namespace Monster_Kingdom
 
             foreach (Working_Agreement agreement in kingdom.agreements)
             {
-                if (index == 0)
+                if (agreement is Working_Agreement)
                 {
+                    if (index == 0)
+                    {
                     return agreement;
+                    }
+                    index--;
                 }
-                index--;
             }
             return kingdom.agreements.FirstOrDefault();
         }
         public static void End_Work_On_Contract(Kingdom kingdom)
         {
             Console.WriteLine("Wybierz umowę:\n Jeśli chcesz powrócić wybierz 0 ");
-            Show_Specific_Agreements(kingdom);
+            int count=Show_Specific_Agreements(kingdom);
             int index = Convert.ToInt32(Console.ReadLine());
             if (index == 0) return;
-            if (index < 0 || index > kingdom.agreements.Count) // tu jest blad bo zlicza wszystkie a nie specific
+            if (index < 0 || index > count)
             {
                 Console.WriteLine("Nie ma umowy o takim indeksie");
                 return;
@@ -302,6 +332,17 @@ namespace Monster_Kingdom
                     }
                 }
             }
+            index = 0;
+            foreach(Agreement agreement in kingdom.agreements)
+            {
+                if (agreement == comparable_agreement)
+                {
+                    kingdom.agreements.RemoveAt(index);
+                    break;
+                }
+                index++;
+            }
+            //usuniecie umowy
 
         }
         public static void Show_Agreement_Monsters(Working_Agreement agreement)
@@ -309,7 +350,7 @@ namespace Monster_Kingdom
             int index = 1;
             foreach (Monster monster in agreement.monsters)
             {
-                Console.WriteLine(index + ". " + agreement);
+                Console.WriteLine(index + ". " + monster);
                 index++;
             }
         }
