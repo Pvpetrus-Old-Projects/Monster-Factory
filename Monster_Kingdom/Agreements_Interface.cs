@@ -27,7 +27,8 @@ namespace Monster_Kingdom
                 Console.WriteLine("2. Dodaj umowę o potwora");
                 Console.WriteLine("3. Dodaj umowę o pracę");
                 Console.WriteLine("4. Dodaj potwora do umowy o pracę");
-                Console.WriteLine("5. Zakończ pracę nad potworem");
+                Console.WriteLine("5. Zakończ pracę nad potworem w umowie o pracę");
+                Console.WriteLine("6. Zakończ pracę nad potworem w umowie o dzieło");
                 Program_Trwa=Int32.Parse(Console.ReadLine());
                 switch (Program_Trwa)
                 {
@@ -37,16 +38,19 @@ namespace Monster_Kingdom
                         Show_Agreements(kingdom);
                         break;
                     case 2:
-                        Add_Specific_Agreement();
+                        Add_Specific_Agreement(kingdom);
                         break;
                     case 3:
-                        Add_Working_Agreement();
+                        Add_Working_Agreement(kingdom);
                         break;
                     case 4:
-                        Add_Monster_To_Agreement();
+                        Add_Monster_To_Agreement(kingdom);
                         break;
                     case 5:
-                        End_Work_On_Monster();
+                        End_Work_On_Monster(kingdom);
+                        break;
+                    case 6:
+                        End_Work_On_Contract(kingdom);
                         break;
                     default:
                         Console.WriteLine("Zła akcja!");
@@ -70,31 +74,85 @@ namespace Monster_Kingdom
         }
         public static void Add_Specific_Agreement(Kingdom kingdom)
         {
-            //dokonczyc
+            Double price;
+            String origin;
             String name;
-            String surname;
+            String race;
+            String color;
+            Shapers_Interface.Show_Shapers(kingdom);
+            Console.WriteLine("Podaj index tworzyciela:\nJeśli chcesz wyjść podaj 0");
+            int index = Convert.ToInt32(Console.ReadLine());
+            if (index == 0) return;
+            if (index < 0 || index > kingdom.monsters.Count)
+            {
+                Console.WriteLine("Nie ma tworzyciela o takim indeksie");
+                return;
+            }
+            Console.WriteLine("Podaj cenę: ");
+            price = Convert.ToDouble(Console.ReadLine());
+            //dodawanie potwora do kontraktu
             TimeSpan dt2 = DateTime.Now.Subtract(new DateTime(1970, 1, 1, 0, 0, 0));
             int id = Convert.ToInt32(dt2.TotalSeconds);
+            Console.WriteLine("Wybierz pochodzenie: ");
+            origin = Console.ReadLine();
             Console.WriteLine("Podaj imię: ");
             name = Console.ReadLine();
-            Console.WriteLine("Podaj nazwisko: ");
-            surname = Console.ReadLine();
-            Shaper shaper = new Shaper(name, surname, id);
+            Console.WriteLine("Podaj Rasę: ");
+            race = Console.ReadLine();
+            Console.WriteLine("Podaj cenę: ");
+            price = Convert.ToDouble(Console.ReadLine());
+            Monster new_monster;
+            if (origin == "Ork")
+            {
+                Console.WriteLine("Podaj kolor: ");
+                color = Console.ReadLine();
+                new_monster = new Ork(race, id, price, kingdom.agreements[index].shaper, color);
+            }
+            else
+            {
+                new_monster = new Demon(race, id, price, kingdom.agreements[index].shaper);
+            }
+            Specific_Agreement agreement = new Specific_Agreement(price, kingdom.shapers[index], new_monster);
             try
             {
-                kingdom.Add_Shaper(shaper);
+                kingdom.Add_Agreement(agreement);
             }
             catch (ArgumentException e)
             {
                 Console.WriteLine(e);
             }
         }
-        public static void Add_Working_Agreement()
+        public static void Add_Working_Agreement(Kingdom kingdom)
         {
             //dokonczyc
+            //dokonczyc
+            Double price;
+            Shapers_Interface.Show_Shapers(kingdom);
+            Console.WriteLine("Podaj index tworzyciela:\nJeśli chcesz wyjść podaj 0");
+            int index = Convert.ToInt32(Console.ReadLine());
+            if (index == 0) return;
+            if (index < 0 || index > kingdom.monsters.Count)
+            {
+                Console.WriteLine("Nie ma tworzyciela o takim indeksie");
+                return;
+            }
+            Console.WriteLine("Podaj cenę: ");
+            price = Convert.ToDouble(Console.ReadLine());
+            //dodawanie potwora do kontraktu
+           
+            Working_Agreement agreement = new Working_Agreement(price, kingdom.shapers[index],new List<Monster>());
+            try
+            {
+                kingdom.Add_Agreement(agreement);
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e);
+            }
         }
         public static void Add_Monster_To_Agreement(Kingdom kingdom)
         {
+            // nie zadziala bo index nie bedzie sie zgadzal
             Console.WriteLine("Wybierz tworzyciela:\n Jeśli chcesz powrócić wybierz 0 ");
             Show_Working_Agreements(kingdom);
             int index = Convert.ToInt32(Console.ReadLine());
@@ -105,8 +163,6 @@ namespace Monster_Kingdom
                 return;
             }
             index--;
-            //wybrac agreement najpierw
-            // zrobic
             String origin;
             String name;
             String race;
@@ -143,16 +199,34 @@ namespace Monster_Kingdom
                 Console.WriteLine(e);
             }
         }
-        public static void End_Work_On_Monster(Specific_Agreement agreement,Kingdom kingdom)
+        public static void End_Work_On_Monster(Kingdom kingdom)
         {
-            try
+            //INDEX!!!
+            Console.WriteLine("Wybierz umowę:\n Jeśli chcesz powrócić wybierz 0 ");
+            Show_Working_Agreements(kingdom);
+            int index = Convert.ToInt32(Console.ReadLine());
+            if (index == 0) return;
+            if (index < 0 || index > kingdom.monsters.Count)
             {
-                kingdom.Add_Monster(agreement.monster);
+                Console.WriteLine("Nie ma umowy o takim indeksie");
+                return;
             }
-            catch (ArgumentException e)
+            index--;
+            Working_Agreement new_agreement = (Working_Agreement)Choose_Specific_Agreement(kingdom, index);
+            int monster_index;
+            Console.WriteLine("Wybierz potwora:\n Jeśli chcesz powrócić wybierz 0");
+            Console.WriteLine(new_agreement.monsters);
+            monster_index = Convert.ToInt32(Console.ReadLine());
+
+            if (monster_index == 0) return;
+            if (monster_index < 0 || monster_index > new_agreement.monsters.Count)
             {
-                Console.WriteLine(e);
+                Console.WriteLine("Nie ma potwora o takim indeksie");
+                return;
             }
+            index--;
+            //dokonczyc
+
         }
         public static void Show_Specific_Agreements(Kingdom kingdom)
         {
@@ -171,6 +245,36 @@ namespace Monster_Kingdom
                 Console.WriteLine(index + ". " + agreement);
                 index++;
             }
+        }
+        public static Agreement Choose_Specific_Agreement(Kingdom kingdom,int index)
+        {
+
+            foreach(Specific_Agreement agreement in kingdom.agreements)
+            {
+                if (index == 0)
+                {
+                    return agreement;
+                }
+                index--;
+            }
+            return kingdom.agreements.FirstOrDefault();
+        }
+        public static Agreement Choose_Working_Agreement(Kingdom kingdom, int index)
+        {
+
+            foreach (Working_Agreement agreement in kingdom.agreements)
+            {
+                if (index == 0)
+                {
+                    return agreement;
+                }
+                index--;
+            }
+            return kingdom.agreements.FirstOrDefault();
+        }
+        public static void End_Work_On_Contract(Kingdom kingdom)
+        {
+            //dokonczyc
         }
     }
     
