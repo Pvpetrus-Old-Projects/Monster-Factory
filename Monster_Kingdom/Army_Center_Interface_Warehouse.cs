@@ -24,7 +24,15 @@ namespace Monster_Kingdom
                 Console.WriteLine("0. Wyjdź z zaopatrzenia Armii");
                 Console.WriteLine("1. Zamów potwora");
                 Console.WriteLine("2. Wyświetl dostępne potwory");
-                Program_Trwa = Int32.Parse(Console.ReadLine());
+                try
+                {
+                    Program_Trwa = Int32.Parse(Console.ReadLine());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+                
                 switch (Program_Trwa)
                 {
                     case 0:

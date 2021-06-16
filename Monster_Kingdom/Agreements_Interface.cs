@@ -166,14 +166,15 @@ namespace Monster_Kingdom
             int count = Show_Working_Agreements(kingdom);
             int index = Convert.ToInt32(Console.ReadLine());
             if (index == 0) return;
-            if (index < 0 || index > count)//uwazac
+            if (index < 0 || index > count)
             {
                 Console.WriteLine("Nie ma umowy o takim indeksie");
                 return;
             }
             index--;
-            Working_Agreement new_agreement;
-            //zrobic choose agreement
+            Working_Agreement new_agreement=null;
+            
+            //potrzebny jest nowy index tylko dlacalosci nie dla working agreement
             foreach(Agreement agreement in kingdom.agreements)
             {
                 if (agreement == Choose_Working_Agreement(kingdom, index))
@@ -181,6 +182,7 @@ namespace Monster_Kingdom
                     new_agreement = (Working_Agreement)agreement;
                 }
             }
+            
             String origin;
             String name;
             String race;
@@ -201,15 +203,15 @@ namespace Monster_Kingdom
             {
                 Console.WriteLine("Podaj kolor: ");
                 color=Console.ReadLine();
-                new_monster = new Ork(race,id,price,kingdom.agreements[index].shaper,color);
+                new_monster = new Ork(race,id,price,new_agreement.shaper,color);
             }
             else
             {
-                new_monster = new Demon(race, id, price, kingdom.agreements[index].shaper);
+                new_monster = new Demon(race, id, price, new_agreement.shaper);
             }
             try
             {
-                new_agreement = (Working_Agreement)kingdom.agreements[index];//blad cant cast specific to working
+                //blad cant cast specific to working
                 new_agreement.monsters.Add(new_monster);
             }
             catch (ArgumentException e)
@@ -229,7 +231,7 @@ namespace Monster_Kingdom
                 return;
             }
             index--;
-            Working_Agreement new_agreement = (Working_Agreement)Choose_Specific_Agreement(kingdom, index);
+            Working_Agreement new_agreement = (Working_Agreement)Choose_Working_Agreement(kingdom, index);
             int monster_index;
             Console.WriteLine("Wybierz potwora:\n Jeśli chcesz powrócić wybierz 0");
             Show_Agreement_Monsters(new_agreement);
@@ -241,10 +243,10 @@ namespace Monster_Kingdom
                 Console.WriteLine("Nie ma potwora o takim indeksie");
                 return;
             }
-            index--;
+            monster_index--;
             //dokonczyc wypisywanie monsters
-            kingdom.Add_Monster(new_agreement.monsters[index]);
-            new_agreement.monsters.RemoveAt(index);
+            kingdom.Add_Monster(new_agreement.monsters[monster_index]);
+            new_agreement.monsters.RemoveAt(monster_index);
 
         }
         public static int Show_Specific_Agreements(Kingdom kingdom)
@@ -292,7 +294,7 @@ namespace Monster_Kingdom
         public static Agreement Choose_Working_Agreement(Kingdom kingdom, int index)
         {
 
-            foreach (Working_Agreement agreement in kingdom.agreements)
+            foreach (Agreement agreement in kingdom.agreements)
             {
                 if (agreement is Working_Agreement)
                 {
@@ -318,13 +320,13 @@ namespace Monster_Kingdom
             }
             index--;
             Specific_Agreement comparable_agreement=(Specific_Agreement)Choose_Specific_Agreement(kingdom, index);
-            foreach(Specific_Agreement agreement in kingdom.agreements)
+            foreach(Agreement agreement in kingdom.agreements)
             {
                 if (agreement == comparable_agreement)
                 {
                     try
                     {
-                        kingdom.Add_Monster(agreement.monster);
+                        kingdom.Add_Monster(comparable_agreement.monster);
                     }
                     catch(Exception e)
                     {
@@ -342,7 +344,7 @@ namespace Monster_Kingdom
                 }
                 index++;
             }
-            //usuniecie umowy
+            
 
         }
         public static void Show_Agreement_Monsters(Working_Agreement agreement)

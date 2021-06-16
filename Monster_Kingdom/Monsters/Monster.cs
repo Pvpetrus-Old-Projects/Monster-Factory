@@ -25,7 +25,7 @@ namespace Monster_Kingdom.Monsters
         }
         public override string ToString()
         {
-            return "id: " + id + "Rasa: " + race + " cena: " + price + " tworzyciel: " + shaper;
+            return "id: " + id + "Rasa: " + race + " cena: " + price;
         }
     }
 }

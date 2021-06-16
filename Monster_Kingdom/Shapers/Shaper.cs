@@ -23,7 +23,7 @@ namespace Monster_Kingdom.Shapers
         }
         public override string ToString()
         {
-            return "Tworzyciel: ID: "+id+" Imię: "+name+" Nazwisko: "+surname ;
+            return "ID: "+id+" Imię: "+name+" Nazwisko: "+surname ;
         }
     }
     
