@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,19 +20,23 @@ namespace Monster_Kingdom
             //
             //Przygotowanie programu do działania
             //
+            Kingdom kingdom = Read_Kingdom_From_File();
+            Army_Center army_Center = Read_army_Center_From_File();
+            /*
             List<Monster> Army_Center_monsters = new List<Monster>();
             List<Shaper> shapers= new List<Shaper>();
             List<Mother_Of_The_Swarm> mothers_Of_The_Swarm = new List<Mother_Of_The_Swarm>();
             List<Agreement> agreements = new List<Agreement>();
             List<Monster> monsters = new List<Monster>();
-            Army_Center army_Center = new Army_Center(Army_Center_monsters);
+             army_Center = new Army_Center(Army_Center_monsters);
             Mother_Of_The_Swarm mothers_Of_The_Swarm1 = new Mother_Of_The_Swarm(true);
             Mother_Of_The_Swarm mothers_Of_The_Swarm2 = new Mother_Of_The_Swarm(false);
             Mother_Of_The_Swarm mothers_Of_The_Swarm3 = new Mother_Of_The_Swarm(false);
             mothers_Of_The_Swarm.Add(mothers_Of_The_Swarm1);
             mothers_Of_The_Swarm.Add(mothers_Of_The_Swarm2);
             mothers_Of_The_Swarm.Add(mothers_Of_The_Swarm3);
-            Kingdom kingdom = new Kingdom(shapers, mothers_Of_The_Swarm, agreements, monsters, army_Center);
+             kingdom = new Kingdom(shapers, mothers_Of_The_Swarm, agreements, monsters);
+            */
             //
             //Dodanie matek roju żeby działało
             //
@@ -57,6 +62,8 @@ namespace Monster_Kingdom
                 switch (Program_Trwa)
                 {
                     case 0:
+                        Save_Kingdom_To_File();
+                        Save_Army_Center_To_File();
                         break;
                     case 1:
                         Army_Center_Interface.Start(kingdom,army_Center);
@@ -79,6 +86,102 @@ namespace Monster_Kingdom
                 }
                 if (Program_Trwa == 0) break;
             } while (Program_Trwa != 0);
+        }
+        public static Kingdom Read_Kingdom_From_File()
+        {
+            List<Monster> monsters = new List<Monster>();
+            List<Mother_Of_The_Swarm> mothers_Of_The_Swarm = new List<Mother_Of_The_Swarm>();
+            List<Shaper> shapers = new List<Shaper>();
+            List<Agreement> agreements = new List<Agreement>();
+            string line;
+            //mothers shapers agreements
+            //demons
+            using (StreamReader file = new StreamReader("demons.txt"))
+            {
+                while ((line = file.ReadLine()) != null)
+                {
+                    monsters.Add(new Demon(line, Convert.ToInt32(file.ReadLine()), Convert.ToDouble(file.ReadLine()),
+                        new Shaper(file.ReadLine(), file.ReadLine(), Convert.ToInt32(file.ReadLine()))));
+                }
+            }
+            //orks
+            using (StreamReader file = new StreamReader("orks.txt"))
+            {
+                while ((line = file.ReadLine()) != null)
+                {
+                    monsters.Add(new Ork(line, Convert.ToInt32(file.ReadLine()), Convert.ToDouble(file.ReadLine()),
+                        new Shaper(file.ReadLine(), file.ReadLine(), Convert.ToInt32(file.ReadLine())), file.ReadLine()));
+                }
+            }
+            //mothers
+            //ability
+            using (StreamReader file = new StreamReader("mothers_Of_The_Swarm.txt"))
+            {
+                while ((line = file.ReadLine()) != null)
+                {
+                    mothers_Of_The_Swarm.Add(new Mother_Of_The_Swarm(Convert.ToBoolean(line)));
+                }
+            }
+            //shapers
+            //id name surname
+            using (StreamReader file = new StreamReader("shapers.txt"))
+            {
+                while ((line = file.ReadLine()) != null)
+                {
+                    shapers.Add(new Shaper(line, file.ReadLine(), Convert.ToInt32(file.ReadLine())));
+                }
+            }
+            //agreements
+            //price shaper
+            using (StreamReader file = new StreamReader("Specific_Agreements.txt"))
+            {
+                while ((line = file.ReadLine()) != null)
+                {
+                    agreements.Add(new Specific_Agreement(Convert.ToDouble(line), new Shaper(file.ReadLine(), file.ReadLine(), Convert.ToInt32(file.ReadLine())), new Demon()));
+                }//UWAGA TRZEBA ZROBIC WYBIERANIE DEMON CZY ORK
+            }
+            using (StreamReader file = new StreamReader("Working_Agreements.txt"))
+            {
+                while ((line = file.ReadLine()) != null)
+                {
+                    agreements.Add(new Working_Agreement(Convert.ToDouble(line), new Shaper(file.ReadLine(), file.ReadLine(), Convert.ToInt32(file.ReadLine())),new List<Monster>()));
+                }//UWAGA ZROBIC NEW LIST
+            }
+            return new  Kingdom(shapers,mothers_Of_The_Swarm,agreements,monsters);
+        }
+        public static Army_Center Read_army_Center_From_File()
+        {
+            List<Monster> army_Center_Shop_Monsters = new List<Monster>();
+            string line;
+
+            //id race price shaper
+            using (StreamReader file = new StreamReader("army_Center_Shop_Demons.txt"))
+            {
+                while ((line = file.ReadLine()) != null)
+                {
+                    army_Center_Shop_Monsters.Add(new Demon(line, Convert.ToInt32(file.ReadLine()), Convert.ToDouble(file.ReadLine()),
+                        new Shaper(file.ReadLine(), file.ReadLine(), Convert.ToInt32(file.ReadLine()))));
+                }
+            }
+            //id race price shaper color
+            using (StreamReader file = new StreamReader("army_Center_Shop_Orks.txt"))
+            {
+                while ((line = file.ReadLine()) != null)
+                {
+                    army_Center_Shop_Monsters.Add(new Ork(line, Convert.ToInt32(file.ReadLine()), Convert.ToDouble(file.ReadLine()),
+                        new Shaper(file.ReadLine(), file.ReadLine(), Convert.ToInt32(file.ReadLine())),file.ReadLine()));
+                }
+            }
+            Army_Center army_Center = new Army_Center(army_Center_Shop_Monsters);
+            return army_Center;
+        }
+        public static void Save_Kingdom_To_File()
+        {
+
+        }
+        public static void Save_Army_Center_To_File()
+        {
+
         }
     }
 }

@@ -17,7 +17,6 @@ namespace Monster_Kingdom.Kingdoms
         public List<Mother_Of_The_Swarm> mothers_Of_The_Swarm { get; set; }
         public List<Agreement> agreements { get; set; }
         public List<Monster> monsters { get; set; }
-        public Army_Center army_Center { get; set; }
         public Kingdom()
         {
             this.shapers = new List<Shaper>();
@@ -25,13 +24,12 @@ namespace Monster_Kingdom.Kingdoms
             this.agreements = new List<Agreement>();
             this.monsters = new List<Monster>();
         }
-        public Kingdom(List<Shaper> shapers,List<Mother_Of_The_Swarm> mothers_Of_The_Swarm,List<Agreement> agreements,List<Monster> monsters,Army_Center army_Center)
+        public Kingdom(List<Shaper> shapers,List<Mother_Of_The_Swarm> mothers_Of_The_Swarm,List<Agreement> agreements,List<Monster> monsters)
         {
             this.shapers = shapers;
             this.mothers_Of_The_Swarm = mothers_Of_The_Swarm;
             this.agreements = agreements;
             this.monsters = monsters;
-            this.army_Center = army_Center;
         }
         public void Add_Shaper(Shaper shaper)
         {
@@ -112,7 +110,7 @@ namespace Monster_Kingdom.Kingdoms
         }
         public override string ToString()
         {
-            return "Królestwo:\n"+"Tworzyciele:\n"+shapers+"Matki miotu:\n"+mothers_Of_The_Swarm+"Umowy:\n"+agreements+"Potwory:\n"+monsters+"Centrum wojska:\n"+army_Center;
+            return "Królestwo:\n"+"Tworzyciele:\n"+shapers+"Matki miotu:\n"+mothers_Of_The_Swarm+"Umowy:\n"+agreements+"Potwory:\n"+monsters;
         }
     }
 }
